@@ -1,0 +1,43 @@
+package SeleniumSessions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class MultipleLevelParentChildMenu {
+
+
+	static WebDriver driver;
+	
+		public static void main(String[] args) throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\MuktaSeth\\Downloads\\drivers\\chromedriver.exe");
+		driver = new ChromeDriver();
+		
+		driver.navigate().to("https://bigbasket.com/");
+		Thread.sleep(3000);
+		
+		By parentMenu=By.xpath("//a[@qa='categoryDD']");
+		Thread.sleep(3000);
+		selectLevel4MenuItem(parentMenu,"a","Beverages", "Tea","Green Tea");
+	}
+		
+		public static void selectLevel4MenuItem(By parentLocator, String htmltag, String level1Menu, String level2Menu, String level3Menu) throws InterruptedException {
+			WebElement parentMenu= driver.findElement(parentLocator);
+			Thread.sleep(1000);
+			Actions act=new Actions(driver);
+			
+			act.moveToElement(parentMenu).build().perform();
+			
+			WebElement l1Level= driver.findElement(By.xpath("(//"+htmltag+"[text()='"+level1Menu+"'])[2]"));
+			act.moveToElement(l1Level).build().perform();
+			
+			WebElement l2Level = driver.findElement(By.xpath("(//"+htmltag+"[text()='"+level2Menu+"'])[2]"));
+			act.moveToElement(l2Level).build().perform();		
+			Thread.sleep(1000);
+			
+			driver.findElement(By.xpath("(//"+htmltag+"[text()='"+level3Menu+"'])[2]")).click();
+
+		}
+
+}
